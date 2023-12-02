@@ -12,3 +12,28 @@ vec101 = rep("nt101",length(gcp$nt101))
 vec201 = rep("nt201",length(gcp$nt201))
 
 gcp_lab_vec = c(vec1,vec3,vec5,vec11,vec21,vec51,vec101,vec201)
+gcp_df = cbind(gcp_lab_vec,gcp_eff_vec)
+gcp_df = as.data.frame(gcp_df)
+colnames(gcp_df)= c ("label","value")
+gcp_df$value = as.numeric(gcp_df$value)
+
+### libraries
+
+library(ggplot2)
+library(RColorBrewer)
+library(viridis)
+library(tibble)
+library(dplyr)
+library(ggpubr)
+
+
+# Create a boxplot using ggboxplot
+p = ggboxplot(gcp_df, x = "label", y = "value",
+          ylab = "Effect size (Cohen's D)",
+          xlab = "Window size",
+          title = "GC effect size across windows")+
+  labs(subtitle = "Prokaryotes")+
+  theme(title = element_text(size = 12,face = "bold",hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        plot.background = element_rect(fill = "white",colour = "grey"),
+        axis.text.x = element_text(angle = 90))
