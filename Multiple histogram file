@@ -1,0 +1,129 @@
+### Histogram
+
+library(ggplot2)
+# set theme
+theme_set(theme_bw(12))
+
+### Import ANOVA data raw
+tab_dfnew = as.data.frame(tab_dfnew)
+
+###converting to numeric
+tab_dfnew$`Genome size` = as.numeric(tab_dfnew$`Genome size`)
+tab_dfnew$`Genomic GC` = as.numeric(tab_dfnew$`Genomic GC`)
+tab_dfnew$`Genomic repeat fraction` = as.numeric(tab_dfnew$`Genomic repeat fraction`)
+tab_dfnew$coding = as.numeric(tab_dfnew$coding)
+tab_dfnew$`gene count` = as.numeric(tab_dfnew$`gene count`)
+tab_dfnew$`log snm rate` = as.numeric(tab_dfnew$`log snm rate`)
+
+
+tab_df = cbind(tab_dfnew$`Genome size`,tab_dfnew$`Genomic GC`,
+               tab_dfnew$`Genomic repeat fraction`,tab_dfnew$coding,
+               tab_dfnew$`gene count`,tab_dfnew$`log snm rate`)
+tab_df = as.data.frame(tab_df)
+colnames(tab_df) = c("Genome size","Genomic GC","Genomic repeat fraction",
+                     "Coding","Gene count","Log SNM rate")
+
+
+### genome size
+
+#par(mar = c(2,2,2,2))### won't work for ggplot
+
+
+## log genome size
+
+gz = log10(tab_df$`Genome size`)
+gz = as.data.frame(gz)
+colnames(gz) = "log_genome_size"
+gz_p = ggplot(gz, aes(x= log_genome_size),title(main = "Genome size distribution"))+
+  geom_histogram( color='#e9ecef', alpha=0.65,position = 'identity', bins = 8)+
+  xlab("Log genome size(MB)")+
+  ggtitle(label = "Genome size distribution")+
+  theme(plot.title = element_text(hjust = 0.5,size = 7,face = "bold"),
+        axis.text.x = element_text(size = 7, vjust = 0.5, hjust=0.5),
+        axis.title.x  = element_text(size = 8),
+        axis.title.y   = element_text(size = 8))+
+  scale_x_continuous(breaks = scales::pretty_breaks(n=10))
+
+### GC
+
+gc = tab_df$`Genomic GC`
+gc = as.data.frame(gc)
+colnames(gc) = "genome_gc"
+gc_p = ggplot(gc, aes(x= genome_gc),title(main = "Genomic GC distribution"))+
+  geom_histogram( color='#e9ecef', alpha=0.65,position = 'identity', bins = 8)+
+  xlab("Genomic GC content (%)")+
+  ggtitle(label = "Genomic GC distribution")+
+  theme(plot.title = element_text(hjust = 0.5,size = 7,face = "bold"),
+        axis.text.x = element_text(size = 7, vjust = 0.5, hjust=0.5),
+        axis.title.x  = element_text(size = 8),
+        axis.title.y   = element_text(size = 8))+
+  scale_x_continuous(breaks = scales::pretty_breaks(n=10))
+
+
+### repeat_fraction
+
+rf1 = tab_df$`Genomic repeat fraction`
+rf1 = as.data.frame(rf1)
+colnames(rf1) = "rfr"
+rf_p = ggplot(rf1, aes(x= rfr),title(main = "Genomic repeat fraction \n distribution"))+
+  geom_histogram( color='#e9ecef', alpha=0.65,position = 'identity', bins = 8)+
+  xlab("Genomic repeat fraction (%)")+
+  ggtitle(label = "Genomic repeat fraction \n distribution")+
+  theme(plot.title = element_text(hjust = 0.5, size = 7,face = "bold"),
+        axis.text.x = element_text(size = 7, vjust = 0.5, hjust=0.5),
+        axis.title.x  = element_text(size = 8),
+        axis.title.y   = element_text(size = 8))+
+  scale_x_continuous(breaks = scales::pretty_breaks(n=10))
+
+
+## coding
+
+cd = tab_df$Coding
+cd = as.data.frame(cd)
+colnames(cd) = "cod_genes"
+cd_p = ggplot(cd, aes(x= cod_genes),title(main = "Genomic complexity distribution \n (Coding genes)"))+
+  geom_histogram( color='#e9ecef', alpha=0.65,position = 'identity', bins = 8)+
+  xlab("number of coding genes")+
+  ggtitle(label = "Genomic complexity distribution \n (coding genes)")+
+  theme(plot.title = element_text(hjust = 0.5,size = 7, face = "bold"),
+        axis.text.x = element_text(size = 7, vjust = 0.5, hjust=0, angle = 90),
+        axis.title.x  = element_text(size = 8),
+        axis.title.y   = element_text(size = 8))+
+  scale_x_continuous(breaks = scales::pretty_breaks(n=8))
+
+###gene count
+
+tot = tab_df$`Gene count`
+tot = as.data.frame(tot)
+colnames(tot) = "tot_genes"
+tot_p = ggplot(tot, aes(x= tot_genes),title(main = "Genomic complexity distribution\n (Gene count)"))+
+  geom_histogram( color='#e9ecef', alpha=0.65,position = 'identity', bins = 8)+
+  xlab("gene count")+
+  ggtitle(label = "Genomic complexity distribution\n (Gene count)")+
+  theme(plot.title = element_text(hjust = 0.5,size = 7,face = "bold"),
+        axis.text.x = element_text(size = 7, vjust = 0.5, hjust=0, angle = 90),
+        axis.title.x  = element_text(size = 8),
+        axis.title.y   = element_text(size = 8))+
+  scale_x_continuous(breaks = scales::pretty_breaks(n=8))
+
+
+### log rate
+
+rate = tab_df$`Log SNM rate`
+rate = as.data.frame(rate)
+colnames(rate) = "log_rate1"
+rt = ggplot(rate, aes(x= log_rate1),
+            title(main = "SNM rate distribution"))+
+  geom_histogram( color='#e9ecef', alpha=0.65,position = 'identity', bins = 8)+
+  xlab("log SNM rate(/bp/gen)")+
+  ggtitle(label = "SNM rate distribution")+
+  theme(plot.title = element_text(hjust = 0.5,size = 7,face = "bold"),
+        axis.text.x = element_text(size = 7, vjust = 0.5, hjust=0.5),
+        axis.title.x  = element_text(size = 8),
+        axis.title.y   = element_text(size = 8))+
+  scale_x_continuous(breaks = scales::pretty_breaks(n=10))
+
+
+### arranging into one
+library(ggpubr)
+ggarrange(gz_p,gc_p,rf_p,cd_p,tot_p,rt, nrow = 3,ncol = 2)
