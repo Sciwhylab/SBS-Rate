@@ -3,7 +3,8 @@ This repository accompanies the paper - "Global and local genomic features toget
 
 It has data sheets for global genomic features - Genome size, Genomic GC , Genomic repeat fraction , Number of coding genes and Gene count and
 local genomic features - local genomic GC , local repeat content, CpG islands and SNM rates
-The data files for stand bias in SNMs and file for the SBS (SBS6 & SBS12) spectrum are also available
+The data files for stand bias in SNMs and file for the SBS (SBS6 & SBS12) spectrum are also available.
+
 
 ### flowchart paper
 This code uses package DiagrammeR. It generates the flowchart which shows the data selection from the data obtained from literature
@@ -30,6 +31,11 @@ Takes the correlatiom matrix as input
 
 ### Taxonwise LogP
 This generates Figure 6 of the paper. Uses ggplot2 and takes the datafile of global genomic feature as input
+
+### strand bias barplot
+It generates barplots of figure 7 (a) and 7(b). It takes datafile of strand bias as input
+
+
 
 
 
