@@ -37,3 +37,15 @@ p = ggboxplot(gcp_df, x = "label", y = "value",
         plot.subtitle = element_text(hjust = 0.5),
         plot.background = element_rect(fill = "white",colour = "grey"),
         axis.text.x = element_text(angle = 90))
+### anova results for the boxplots
+
+model1 = aov(value~label,gcp_df)
+summary(model1)
+
+###manually enter P value here
+p+annotate(geom = 'text', 
+           label = 'P = 0.0235',
+           x = -Inf, y = Inf, 
+           hjust = 1, vjust = 1,
+           fontface = "italic")
+
